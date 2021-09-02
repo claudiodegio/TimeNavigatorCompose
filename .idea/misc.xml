@@ -18,10 +18,13 @@
         <entry key="../../../../layout/compose-model-1630442672129.xml" value="0.31203703703703706" />
         <entry key="../../../../layout/compose-model-1630443442861.xml" value="0.625" />
         <entry key="../../../../layout/compose-model-1630446719531.xml" value="1.0" />
+        <entry key="../../../../layout/compose-model-1630615725873.xml" value="0.30925925925925923" />
+        <entry key="../../../../layout/compose-model-1630616528864.xml" value="0.2986206896551724" />
         <entry key="lib/src/main/res/drawable/ic_baseline_expand_more_24.xml" value="0.19895833333333332" />
         <entry key="lib/src/main/res/drawable/ic_round_chevron_left_24.xml" value="0.5" />
         <entry key="lib/src/main/res/drawable/ic_round_chevron_right_24.xml" value="0.375" />
         <entry key="lib/src/main/res/drawable/ic_round_expand_less_24.xml" value="0.19895833333333332" />
+        <entry key="lib/src/main/res/drawable/ic_round_expand_more_24.xml" value="0.2958974358974359" />
       </map>
     </option>
   </component>

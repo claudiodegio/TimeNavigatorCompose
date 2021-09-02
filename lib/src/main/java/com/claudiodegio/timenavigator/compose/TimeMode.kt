@@ -4,6 +4,6 @@ enum class TimeMode {
     DAY,
     MONTH,
     YEAR,
-    WEEK
-
+    WEEK,
+    ALL
 }

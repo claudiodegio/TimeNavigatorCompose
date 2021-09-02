@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.IconButton
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -26,11 +27,17 @@ import java.util.*
 
 @Composable
 fun TimeNavigator(timeMode: TimeMode,
+                  timeModeSupported:List<TimeMode> = TimeMode.values().asList(),
                   date: LocalDateTime,
                   backgroundColor: Color = MaterialTheme.colors.primary,
                   tintColor: Color = MaterialTheme.colors.onPrimary,
-                  onValueChange: (LocalDateTime, LocalDateTime, LocalDateTime) -> Unit) {
+                  onValueChange: (LocalDateTime, LocalDateTime, LocalDateTime) -> Unit,
+                  onTimeModeChange: (TimeMode) -> Unit = {}) {
 
+    val actionEnabled = timeMode != TimeMode.ALL
+    val tintColorAction = if (actionEnabled) tintColor else tintColor.copy(alpha = 0.65f)
+
+    val timeDialogState = TimeDialogState()
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -39,38 +46,57 @@ fun TimeNavigator(timeMode: TimeMode,
         verticalAlignment = Alignment.CenterVertically) {
 
         // Left
-        Icon(modifier = Modifier
-            .size(36.dp)
-            .clickable {
+        IconButton(enabled = actionEnabled,
+            content = {
+                Icon(
+                    modifier = Modifier.size(36.dp),
+                    painter =  painterResource(id = R.drawable.ic_round_chevron_left_24),
+                    tint = tintColorAction,
+                    contentDescription = "Arrow Left")
+
+             }, onClick = {
                 calculateDate(timeMode, date, -1).let {
                     onValueChange(it.first, it.second, it.third)
                 }
-
-            },
-            painter =  painterResource(id = R.drawable.ic_round_chevron_left_24),
-                contentDescription = "Arrow Left",
-                tint = tintColor)
+            })
 
         // TODO
-        Text(text = "$timeMode", color = tintColor)
+        Text(text = "$timeMode ", color = tintColor)
         Text(text = formatDate(timeMode, date), color = tintColor)
 
-        // Mode
-        Icon(painter = painterResource(id = R.drawable.ic_round_expand_more_24),
-            contentDescription = "Arrow Left",
-            tint = tintColor)
+        // Select Mode
+        if (timeModeSupported.size > 1) {
+
+            IconButton(
+                content = {
+                    Icon(
+                        painter = if (!timeDialogState.visible) painterResource(id = R.drawable.ic_round_expand_more_24) else painterResource(id = R.drawable.ic_round_expand_less_24),
+                        tint = tintColor,
+                        contentDescription = "Select mode")
+
+                }, onClick = {
+                    timeDialogState.show(timeMode)
+                })
+        }
 
         // Right
-        Icon(modifier = Modifier
-            .size(36.dp)
-            .clickable {
+        IconButton(enabled = actionEnabled,
+            content = {
+                Icon(
+                    modifier = Modifier.size(36.dp),
+                    painter =  painterResource(id = R.drawable.ic_round_chevron_right_24),
+                    tint = tintColorAction,
+                    contentDescription = "Arrow right")
+
+            }, onClick = {
                 calculateDate(timeMode, date, 1).let {
                     onValueChange(it.first, it.second, it.third)
                 }
-            },
-            painter =  painterResource(id = R.drawable.ic_round_chevron_right_24),            contentDescription = "Arrow Left",
-            tint = tintColor)
+            })
     }
+
+
+    TimeModeSelectDialog(state = timeDialogState)
 
     LaunchedEffect(timeMode) {
         calculateDate(timeMode, date, 0).let {
@@ -81,7 +107,14 @@ fun TimeNavigator(timeMode: TimeMode,
 }
 
 private fun formatDate(timeMode: TimeMode, date: LocalDateTime) : String {
-    return date.toString()
+    return when(timeMode) {
+        TimeMode.DAY -> date.toString("yyyy-MM-dd")
+        TimeMode.MONTH -> date.toString("yyyy-MM")
+        TimeMode.WEEK -> date.toString("yyyy-ww")
+        TimeMode.YEAR -> date.toString("yyyy")
+        else -> "ALL"
+    }
+
 }
 
 private fun calculateDate(timeMode: TimeMode, date: LocalDateTime, toSet:Int) : Triple<LocalDateTime, LocalDateTime, LocalDateTime> {
@@ -90,8 +123,8 @@ private fun calculateDate(timeMode: TimeMode, date: LocalDateTime, toSet:Int) : 
         TimeMode.MONTH -> date.plusMonths(toSet)
         TimeMode.WEEK -> date.plusWeeks(toSet)
         TimeMode.YEAR -> date.plusYears(toSet)
-    }
-
+        TimeMode.ALL -> date
+   }
     val startDate = when(timeMode) {
         TimeMode.DAY -> newDate
             .withHourOfDay(0)
@@ -112,6 +145,7 @@ private fun calculateDate(timeMode: TimeMode, date: LocalDateTime, toSet:Int) : 
             .withHourOfDay(0)
             .withMinuteOfHour(0)
             .withSecondOfMinute(0)
+        else -> LocalDateTime.now().minusYears(1000)
     }
 
     val endDate = when(timeMode) {
@@ -138,6 +172,7 @@ private fun calculateDate(timeMode: TimeMode, date: LocalDateTime, toSet:Int) : 
             .withHourOfDay(23)
             .withMinuteOfHour(59)
             .withSecondOfMinute(59)
+        else -> LocalDateTime.now().plusYears(1000)
 
     }
     return Triple(newDate, startDate, endDate)
@@ -147,7 +182,7 @@ private fun calculateDate(timeMode: TimeMode, date: LocalDateTime, toSet:Int) : 
 @Composable
 private fun TimeNavigatorPreviewDay() {
     MaterialTheme {
-        TimeNavigator(TimeMode.DAY, LocalDateTime.now(), onValueChange = { _, _, _ ->})
+        TimeNavigator(TimeMode.DAY, date = LocalDateTime.now(), onValueChange = { _, _, _ ->})
     }
 }
 
@@ -155,7 +190,7 @@ private fun TimeNavigatorPreviewDay() {
 @Composable
 private fun TimeNavigatorPreviewMonth() {
     MaterialTheme {
-        TimeNavigator(TimeMode.MONTH, LocalDateTime.now(), onValueChange = {_, _, _ ->})
+        TimeNavigator(TimeMode.MONTH, date =LocalDateTime.now(), onValueChange = {_, _, _ ->})
     }
 }
 
@@ -164,13 +199,29 @@ private fun TimeNavigatorPreviewMonth() {
 @Composable
 private fun TimeNavigatorPreviewWeek() {
     MaterialTheme {
-        TimeNavigator(TimeMode.WEEK, LocalDateTime.now(), onValueChange = {_, _, _ ->})
+        TimeNavigator(TimeMode.WEEK, date = LocalDateTime.now(), onValueChange = {_, _, _ ->})
     }
 }
 @Preview(showBackground = true)
 @Composable
 private fun TimeNavigatorPreviewYear() {
     MaterialTheme {
-        TimeNavigator(TimeMode.YEAR, LocalDateTime.now(), onValueChange = {_, _, _ ->})
+        TimeNavigator(TimeMode.YEAR, date = LocalDateTime.now(), onValueChange = {_, _, _ ->})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TimeNavigatorPreviewALL() {
+    MaterialTheme {
+        TimeNavigator(TimeMode.ALL, date =LocalDateTime.now(), onValueChange = {_, _, _ ->})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TimeNavigatorPreviewOnlyOneModeL() {
+    MaterialTheme {
+        TimeNavigator(TimeMode.DAY, timeModeSupported = listOf(TimeMode.DAY), date = LocalDateTime.now(), onValueChange = { _, _, _ ->})
     }
 }

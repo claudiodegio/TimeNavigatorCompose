@@ -44,30 +44,30 @@ fun Greeting() {
                 title = { Text(text = "Sample") }
             )
 
-            TimeNavigatorTester(TimeMode.DAY)
-
-            TimeNavigatorTester(TimeMode.WEEK)
-
-            TimeNavigatorTester(TimeMode.MONTH)
-
-            TimeNavigatorTester(TimeMode.YEAR)
+            TimeNavigatorTester()
         }
     }
 }
 
 @Composable
-private fun TimeNavigatorTester(timeMode: TimeMode, date: LocalDate = LocalDate.now()){
+private fun TimeNavigatorTester(date: LocalDate = LocalDate.now()){
     var dateDay by remember { mutableStateOf( LocalDateTime.now()) }
 
     var dateStartAsString by remember { mutableStateOf("") }
     var dateEndAsString by remember { mutableStateOf("") }
+    var timeMode by remember { mutableStateOf(TimeMode.DAY) }
 
-    Box(modifier = Modifier.height(3.dp).background(Color.Red).fillMaxWidth())
+    Box(modifier = Modifier
+        .height(3.dp)
+        .background(Color.Red)
+        .fillMaxWidth())
     Text(text = "$timeMode")
-    TimeNavigator(timeMode, dateDay, onValueChange = { date, dateStart, dateEnd ->
+    TimeNavigator(timeMode, date = dateDay, onValueChange = { date, dateStart, dateEnd ->
         dateDay = date
         dateStartAsString = dateStart.toString()
         dateEndAsString = dateEnd.toString()
+    }, onTimeModeChange = {
+        timeMode = it
     })
 
     Text(text = "DS: $dateStartAsString")
