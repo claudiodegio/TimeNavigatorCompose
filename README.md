@@ -1,7 +1,12 @@
 # TimeNavigatorCompose
+
+[![Release](https://jitpack.io/v/User/Repo.svg)]
+(https://jitpack.io/#User/Repo)
+
 Cute library to implement a simple time navigation view. *Works from Android API 21 (Lollipop) and above*.
 
 It the upgraded library https://github.com/claudiodegio/TimeNavigatorCompose with compose
+
 
 # Feature
 
