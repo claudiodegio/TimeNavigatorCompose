@@ -5,7 +5,10 @@ It the upgraded library https://github.com/claudiodegio/TimeNavigatorCompose wit
 
 # Feature
 
-- 
+- Use of jetpack compose
+- Support for time navigation of year, month, week, day ad whole period
+- Time mode configurable
+- Time mode change integrated with dialog
 
 ![sample](https://raw.githubusercontent.com/claudiodegio/TimeNavigator/master/screen/screen_001.png)
 ![sample](https://raw.githubusercontent.com/claudiodegio/TimeNavigator/master/screen/screen_002.png)
@@ -48,7 +51,7 @@ private fun TimeNavigatorTester(date: LocalDate = LocalDate.now()){
         dateDay = date
         dateStartAsString = dateStart.toString()
         dateEndAsString = dateEnd.toString()
-    }, onTimeModeChange = {
+    }, onValueChange = {
         timeMode = it
     })
 
@@ -58,12 +61,12 @@ private fun TimeNavigatorTester(date: LocalDate = LocalDate.now()){
 }
 ```
 
-Where
-
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
+| Param             | Description                             |
+| ----------------- | --------------------------------------- |
+| timeMode          | Time mode requested or selected by user |
+| date              | Initial date                            |
+| onValueChange     | Callback for time selection change      |
+| onValueChange     |  Callback time mode changed             |
 
 # Help me
 Pull requests are more than welcome, help me and others improve this awesome library.
