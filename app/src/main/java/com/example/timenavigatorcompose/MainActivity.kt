@@ -66,6 +66,7 @@ private fun TimeNavigatorTester(date: LocalDate = LocalDate.now()){
         .background(Color.Red)
         .fillMaxWidth())
     Text(text = "$timeMode")
+
     TimeNavigator(timeMode, date = dateDay, onValueChange = { date, dateStart, dateEnd ->
         dateDay = date
         dateStartAsString = dateStart.toString()
