@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="period_all">TUTTO IL PERIODO</string>
+    <string name="period_year">ANNO %1$tY</string>
+    <string name="period_day">%1$Ta, %1$Td %1$TB %1$TY</string>
+    <string name="period_month">%1$TB %1$TY</string>
+    <string name="period_week_same_month">%1$Td - %2$Td %1$TB %1$TY</string>
+    <string name="period_week_diff_month">%1$Td %1$Tb - %2$Td %2$Tb %1$TY</string>
+
+    <string name="dialog_select_mode">Scegli la modalità</string>
+
+    <string name="dialog_item_mode_day">Giorno</string>
+    <string name="dialog_item_mode_month">Mese</string>
+    <string name="dialog_item_mode_week">Settimana</string>
+    <string name="dialog_item_mode_year">Anno</string>
+    <string name="dialog_item_mode_all_time">Tutto il periodo</string>
+
+
+</resources>
