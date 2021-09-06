@@ -1,6 +1,7 @@
 # TimeNavigatorCompose
 
-![Hex.pm](https://img.shields.io/hexpm/l/TimeNavigatorCompose)
+[![Release](https://jitpack.io/v/User/Repo.svg)]
+(https://jitpack.io/#claudiodegio/TimeNavigatorCompose)
 
 Cute library to implement a simple time navigation view. *Works from Android API 21 (Lollipop) and above*.
 
