@@ -1,8 +1,8 @@
 # TimeNavigatorCompose
 
 [![Release](https://jitpack.io/v/claudiodegio/TimeNavigatorCompose.svg)](https://jitpack.io/#claudiodegio/TimeNavigatorCompose)
+[![Licence](https://badgen.net/badge/license/APACHE2/blue)](https://www.apache.org/licenses/LICENSE-2.0)
 
-[https://badgen.net/badge/license/APACHE2/blue]
 
 Cute library to implement a simple time navigation view. *Works from Android API 21 (Lollipop) and above*.
 
