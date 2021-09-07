@@ -39,7 +39,7 @@ fun TimeNavigator(timeMode: TimeMode,
                   rowModifier: Modifier = Modifier,
                   backgroundColor: Color = MaterialTheme.colors.primary,
                   tintColor: Color = MaterialTheme.colors.onPrimary,
-                  onValueChange: (LocalDateTime, LocalDateTime, LocalDateTime) -> Unit,
+                  onValueChange: (TimeMode, LocalDateTime, LocalDateTime, LocalDateTime) -> Unit,
                   onTimeModeChange: (TimeMode) -> Unit = {}) {
 
     val actionEnabled = timeMode != TimeMode.ALL
@@ -62,7 +62,7 @@ fun TimeNavigator(timeMode: TimeMode,
 
              }, onClick = {
                 calculateDate(timeMode, date, -1).let {
-                    onValueChange(it.first, it.second, it.third)
+                    onValueChange(timeMode, it.first, it.second, it.third)
                 }
             })
 
@@ -105,7 +105,7 @@ fun TimeNavigator(timeMode: TimeMode,
 
             }, onClick = {
                 calculateDate(timeMode, date, 1).let {
-                    onValueChange(it.first, it.second, it.third)
+                    onValueChange(timeMode, it.first, it.second, it.third)
                 }
             })
     }
@@ -117,7 +117,7 @@ fun TimeNavigator(timeMode: TimeMode,
 
     LaunchedEffect(timeMode) {
         calculateDate(timeMode, date, 0).let {
-            onValueChange(it.first, it.second, it.third)
+            onValueChange(timeMode, it.first, it.second, it.third)
         }
     }
 }
@@ -129,17 +129,17 @@ fun TimeNavigator(timeMode: TimeMode,
 private fun TimeNavigatorPreviewDay() {
     MaterialTheme {
         Column {
-            TimeNavigator(TimeMode.DAY, date = LocalDateTime.now(), onValueChange = { _, _, _ ->})
+            TimeNavigator(TimeMode.DAY, date = LocalDateTime.now(), onValueChange = { _, _, _, _ ->})
 
-            TimeNavigator(TimeMode.MONTH, date =LocalDateTime.now(), onValueChange = {_, _, _ ->})
+            TimeNavigator(TimeMode.MONTH, date =LocalDateTime.now(), onValueChange = {_, _, _, _ ->})
 
-            TimeNavigator(TimeMode.WEEK, date = LocalDateTime.now(), onValueChange = {_, _, _ ->})
+            TimeNavigator(TimeMode.WEEK, date = LocalDateTime.now(), onValueChange = {_, _, _, _ ->})
 
-            TimeNavigator(TimeMode.YEAR, date = LocalDateTime.now(), onValueChange = {_, _, _ ->})
+            TimeNavigator(TimeMode.YEAR, date = LocalDateTime.now(), onValueChange = {_, _, _, _ ->})
 
-            TimeNavigator(TimeMode.ALL, date =LocalDateTime.now(), onValueChange = {_, _, _ ->})
+            TimeNavigator(TimeMode.ALL, date =LocalDateTime.now(), onValueChange = {_, _, _, _ ->})
 
-            TimeNavigator(TimeMode.DAY, timeModeSupported = listOf(TimeMode.DAY), date = LocalDateTime.now(), onValueChange = { _, _, _ ->})
+            TimeNavigator(TimeMode.DAY, timeModeSupported = listOf(TimeMode.DAY), date = LocalDateTime.now(), onValueChange = { _, _, _, _ ->})
         }
     }
 }
