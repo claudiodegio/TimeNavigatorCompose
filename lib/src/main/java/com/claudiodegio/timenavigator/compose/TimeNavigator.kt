@@ -76,7 +76,10 @@ fun TimeNavigator(timeMode: TimeMode,
                             tintColor = tintColor,
                             textColor = backgroundColor)
 
-        Text(text = formatDate(timeMode, date), color = tintColor)
+        Text(modifier = Modifier.clickable {
+                timeDialogState.show(timeMode)
+             },
+             text = formatDate(timeMode, date), color = tintColor)
 
         // Select Mode
         if (timeModeSupported.size > 1) {
